@@ -10,7 +10,7 @@
   <extension point="xbmc.addon.metadata">
     <summary lang="en">pogdesign-sync</summary>
 	<description lang="en">Sync your watched episodes with Pogdesign TV Calendar</description>
-	<source></source>
+	<source>https://github.com/rafakob/service.pogdesign.sync</source>
 	<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
   </extension>
 </addon>
