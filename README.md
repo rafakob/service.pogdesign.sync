@@ -6,7 +6,7 @@
 ### Intro ###
 You may ask why I even bother with a TV calendar that doesn't have a proper name and domain (pogdesign WTF?). Isn't Trakt.tv better? Probably it is, but I've been using TVC for years now and I love it. It's fast, simple, clean and reliable. Even with Kodi + SickRage I'm still checking TVC to see what shows has been released and I'm marking those episodes that I've watched.
 
-*Please note that I'm not a professional developer and it was my first encounter with Python/Kodi. Addon is so simple that it can't brake anything, but it might not work properly in 100% situations.*
+*Please note that I'm not a professional developer and it was my first encounter with Python/Kodi. Addon is so simple that it can't breake anything, but it might not work properly in 100% situations.*
 
 ### Features ###
 Brace yourself because the addon is just feature-rich! Here we go:
