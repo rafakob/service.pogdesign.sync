@@ -54,25 +54,31 @@ class Main:
         self.run()
 
     def get_watched_eps(self):
-        ret = json_query(qGetWatchedEps)['episodes']
-        lst = []
-        for d in ret:
-            lst.append([d['showtitle'], d['season'], d['episode'], d['firstaired']])
-        return sorted(lst, key=lambda show: show[0])
+        query_result = json_query(qGetWatchedEps)
+        if 'episodes' in query_result:
+            ret = query_result['episodes']
+            lst = []
+            for d in ret:
+                lst.append([d['showtitle'], d['season'], d['episode'], d['firstaired']])
+            return sorted(lst, key=lambda show: show[0])
+        else:
+            return []
 
     def full_sync(self):
         cal.login(USERNAME, PASS)  # login to calendar
         self.eps_watched = self.get_watched_eps()  # get watched eps from library
-
-        if not lists_equal(self.eps_watched, self.eps_marked):
-            log('Library has been changed. Performing full sync.....')
-            try:
-                for el in self.eps_watched:
-                    cal.mark_watched(cal.get_epid(el[0], el[1], el[2]))  # mark them in calendar
-                self.eps_marked = self.eps_watched  # update list with already marked episodes
-                log('Full sync has been performed.')
-            except:
-                log('Error while sending request to the calendar.')
+        if not self.eps_watched:
+            log('Library does not contain any "watched" episodes. There is nothing to update.')
+        else:
+            if not lists_equal(self.eps_watched, self.eps_marked):
+                log('Library has been changed. Performing full sync.....')
+                try:
+                    for el in self.eps_watched:
+                        cal.mark_watched(cal.get_epid(el[0], el[1], el[2]))  # mark them in calendar
+                    self.eps_marked = self.eps_watched  # update list with already marked episodes
+                    log('Full sync has been performed.')
+                except:
+                    log('Error while sending request to the calendar.')
 
     def run(self):
         # Initial full scan and sync:
