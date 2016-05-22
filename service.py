@@ -65,7 +65,8 @@ class Main:
             return []
 
     def full_sync(self):
-        cal.login(USERNAME, PASS)  # login to calendar
+        calendar = cal.Calendar()
+        calendar.login(USERNAME, PASS)  # login to calendar
         self.eps_watched = self.get_watched_eps()  # get watched eps from library
         if not self.eps_watched:
             log('Library does not contain any "watched" episodes. There is nothing to update.')
@@ -74,7 +75,8 @@ class Main:
                 log('Library has been changed. Performing full sync.....')
                 try:
                     for el in self.eps_watched:
-                        cal.mark_watched(cal.get_epid(el[0], el[1], el[2]))  # mark them in calendar
+                        epid = calendar.get_epid(el[0], el[1], el[2])
+                        calendar.mark_watched(epid)  # mark them in calendar
                     self.eps_marked = self.eps_watched  # update list with already marked episodes
                     log('Full sync has been performed.')
                 except:

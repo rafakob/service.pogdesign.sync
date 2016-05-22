@@ -1,82 +1,58 @@
-import urllib
-import urllib2
-import cookielib
+import requests
 import re
 
+class Calendar():
+    def __init__(self):
+        self.baseURL = 'http://www.pogdesign.co.uk/cat'
 
-URL = 'http://www.pogdesign.co.uk'
-SHOW_NAME = ''
-PAGE = ''
+    """ Login to your calendar """
+    def login(self,username,password):
+        self.s = requests.session()
+        plod = {'username':username, 'password':password, 'sub_login':''}
+        self.s.post(self.baseURL + '/login', data=plod)
 
-""" Login to your calendar """
-def login(username,password):
-    cj = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    urllib2.install_opener(opener)
+    """ Returns HTML code of a given URL """
+    def get_page(self, url):
+        self.r = self.s.get(url)
+        return self.r.text
 
-    form = {'username': username,
-            'password': password,
-            'sub_login': 'Account Login'}
-
-    submit_form(URL + '/cat/', form)
-
-""" Returns HTML code of a given URL """
-def get_page(url):
-    response = urllib2.urlopen(url)
-    return response.read()
-
-""" Submits POST request """
-def submit_form(url,form):
-    data = urllib.urlencode(form)
-    request = urllib2.Request(url, data)
-    urllib2.urlopen(request)
-
-""" Returns episode's id number """
-def get_epid(show,season,episode):
-    global SHOW_NAME
-    global PAGE
-
-    if SHOW_NAME != process_name(show):
-      try:
-        SHOW_NAME = process_name(show)
-        PAGE = get_page(URL + '/cat/' + SHOW_NAME + '-summary')
-      except:
+    """ Returns episode's id number """
+    def get_epid(self,show,season,episode):
+        showName = show
+        content = ""
+        if showName != self.process_name(show):
           try:
-            SHOW_NAME = process_name(show, True)
-            PAGE = get_page(URL + '/cat/' + SHOW_NAME + '-summary')
+            showName = self.process_name(show)
+            content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
           except:
-            PAGE = None
-            return None
+            try:
+              showName = self.process_name(show, True)
+              content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
+            except:
+              content = None
+              return None
 
-    if PAGE is None:
-      return None
+        if content is None:
+          return None
 
-    eps = re.findall('input class="watchcheck" type="checkbox" value="(.*)"', PAGE)
-    eps = [ep.replace('" checked="checked','') for ep in eps]
-    return next((x for x in eps if x.find('-' + str(season) + '-' + str(episode) + '/') != -1), None)
+        eps = re.findall('class="watchcheck" type="checkbox" value="(.*)" />', content)
+        return next((x for x in eps if x.find('-' + str(season) + '-' + str(episode) + '/') != -1), None)
 
-""" Processing Kodi's show name into Pogdesign name used in URL of -summary page (eg. "Mr. Robot" to "Mr-Robot") """
-def process_name(show, remove_brackets = False):
-    if remove_brackets:
-        show = re.sub('\(.*?\)','',show)
+    """ Processing Kodi's show name into Pogdesign name used in URL of -summary page (eg. "Mr. Robot" to "Mr-Robot") """
+    def process_name(self, show, remove_brackets = False):
+        if remove_brackets:
+          show = re.sub('\(.*?\)','',show)
 
-    show = show.strip()
-    show = re.sub('[^A-Za-z0-9\s&]+', '', show)
-    show = show.replace('&','and')
-    show = show.replace(' ','-')
-    return show
+        show = show.strip()
+        show = re.sub('[^A-Za-z0-9\s&]+', '', show)
+        show = show.replace('&','and')
+        show = show.replace(' ','-')
+        return show
 
-def mark_watched(epid):
-    submit_form(URL + '/cat/watchhandle', { 'watched': 'adding',
-                                            'shid': epid})
-def mark_unwatched(epid):
-    submit_form(URL + '/cat/watchhandle', { 'unwatched': 'removing',
-                                            'shid': epid})
-def url_exists(url):
-    request = urllib2.Request(url)
-    request.get_method = lambda : 'HEAD'
-    try:
-        urllib2.urlopen(request)
-        return True
-    except:
-        return False
+    def mark_watched(self,epid):
+        plod = { 'watched': 'adding', 'shid': epid}
+        self.s.post('http://www.pogdesign.co.uk/cat/watchhandle', data=plod)
+
+    def mark_unwatched(self,epid):
+        plod = { 'watched': 'removing', 'shid': epid}
+        self.s.post(baseURL + '/watchhandle', data=plod)
