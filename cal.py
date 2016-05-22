@@ -1,4 +1,6 @@
-import requests
+import urllib
+import urllib2
+import cookielib
 import re
 
 class Calendar():
@@ -7,14 +9,26 @@ class Calendar():
 
     """ Login to your calendar """
     def login(self,username,password):
-        self.s = requests.session()
-        plod = {'username':username, 'password':password, 'sub_login':''}
-        self.s.post(self.baseURL + '/login', data=plod)
+        self.cj = cookielib.CookieJar()
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
+        urllib2.install_opener(self.opener)
+
+        form = {'username': username,
+            'password': password,
+            'sub_login': ''}
+
+        self.submit_form(self.baseURL + '/cat/login', form)
 
     """ Returns HTML code of a given URL """
     def get_page(self, url):
-        self.r = self.s.get(url)
-        return self.r.text
+        response = urllib2.urlopen(url)
+        return response.read()
+
+    """ Submits POST request """
+    def submit_form(self,url,form):
+        data = urllib.urlencode(form)
+        request = urllib2.Request(url, data)
+        urllib2.urlopen(request)
 
     """ Returns episode's id number """
     def get_epid(self,show,season,episode):
@@ -50,9 +64,9 @@ class Calendar():
         return show
 
     def mark_watched(self,epid):
-        plod = { 'watched': 'adding', 'shid': epid}
-        self.s.post('http://www.pogdesign.co.uk/cat/watchhandle', data=plod)
+        data = { 'watched': 'adding', 'shid': epid}
+        self.submit_form(self.baseURL + '/watchhandle', data)
 
     def mark_unwatched(self,epid):
-        plod = { 'watched': 'removing', 'shid': epid}
-        self.s.post(baseURL + '/watchhandle', data=plod)
+        data = { 'watched': 'removing', 'shid': epid}
+        self.submit_form(self.baseURL + '/watchhandle', data)
