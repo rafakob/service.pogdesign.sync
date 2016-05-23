@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings>
+    <!-- General -->
+    <category id="general" label="33010">
+        <setting id="username" type="text" label="33011"/>
+        <setting id="password" option="hidden" type="text" label="33012"/>
+    </category>
+</settings>

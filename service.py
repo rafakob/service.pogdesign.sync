@@ -1,19 +1,27 @@
+import os
 import xbmc
+import xbmcaddon
 import json
 import cal
 import sys
 
-""" Set your username and password for http://www.pogdesign.co.uk/cat """
+__addon__ = xbmcaddon.Addon()
+__cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode("utf-8")
+__resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources')).decode("utf-8")
+__settings__ = xbmcaddon.Addon("service.pogdesign.sync")
 
-USERNAME = 'myname'
-PASS = 'mypass'
+USERNAME = __settings__.getSetting('username')
+PASS = __settings__.getSetting('password')
 
-""""""
+sys.path.append(__resource__)
 
 qGetWatchedEps = {"jsonrpc": "2.0", "id": 1,
                   "method": "VideoLibrary.GetEpisodes",
                   "params": {"filter": {"field": "playcount", "operator": "greaterthan", "value": "0"},
                              "properties": ["showtitle", "season", "episode", "firstaired", "playcount"]}}
+
+def getSetting(setting):
+    return __addon__.getSetting(setting).strip()
 
 def json_query(query):
     try:
@@ -65,7 +73,8 @@ class Main:
             return []
 
     def full_sync(self):
-        cal.login(USERNAME, PASS)  # login to calendar
+        calendar = cal.Calendar()
+        calendar.login(USERNAME, PASS)  # login to calendar
         self.eps_watched = self.get_watched_eps()  # get watched eps from library
         if not self.eps_watched:
             log('Library does not contain any "watched" episodes. There is nothing to update.')
@@ -74,7 +83,8 @@ class Main:
                 log('Library has been changed. Performing full sync.....')
                 try:
                     for el in self.eps_watched:
-                        cal.mark_watched(cal.get_epid(el[0], el[1], el[2]))  # mark them in calendar
+                        epid = calendar.get_epid(el[0], el[1], el[2])
+                        calendar.mark_watched(epid)  # mark them in calendar
                     self.eps_marked = self.eps_watched  # update list with already marked episodes
                     log('Full sync has been performed.')
                 except:
