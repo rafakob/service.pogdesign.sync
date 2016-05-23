@@ -27,22 +27,14 @@ Addon was tested on Kodi 14.2 Helix for Windows and on OpenELEC 5.95.2 for Raspb
 
 ### How to use it ###
 1. Download .zip from here - [Download](https://github.com/rafakob/service.pogdesign.sync/archive/master.zip)
-2. Unpack it and edit in Notepad file **service.py**
-3. Go to lines 8, 9 and type your USERNAME and PASS for the TVC. Save the file.
-4. Repack folder once again into .zip. It should looks like [this](http://i.imgur.com/fOmhjJj.png).
-5. In Kodi go to *Settings > Add-ons > Install from zip file* > Choose created zip file.
-6. That's all. Addon will work in background. It doesn't display any notifications.
-
-
-### Future plans ###
-- Simple GUI for editing settings.
-- Short notifications when calendar has been synced.
-- Web scraping optimization.
-- Full two way sync (configurable).
-- Perform sync on finish watching episode.
-
-I know how to do most of the things, I just need some time.
+2. In Kodi go to *Settings > Add-ons > Install from zip file* > Choose created zip file.
+3. Go to addon settings and setup your email and password for the calendar.
+4. That's all. Addon will work in background. It doesn't display any notifications.
 
 ### Changelog ###
+    0.1.2
+	- update the html content parsing to work for the new design
+	- Username and Password now can be set from a convenient graphical user interface
+
     0.1.0
 	- Initial working version
