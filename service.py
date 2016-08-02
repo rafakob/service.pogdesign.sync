@@ -83,7 +83,9 @@ class Main:
                 log('Library has been changed. Performing full sync.....')
                 try:
                     for el in self.eps_watched:
+                        log('Getting epid for Show: {0} Season: {1} Episode: {2}'.format(el[0], el[1], el[2]))
                         epid = calendar.get_epid(el[0], el[1], el[2])
+                        log('Epid: {0}'.format(epid))
                         calendar.mark_watched(epid)  # mark them in calendar
                     self.eps_marked = self.eps_watched  # update list with already marked episodes
                     log('Full sync has been performed.')

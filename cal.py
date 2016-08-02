@@ -34,17 +34,16 @@ class Calendar():
     def get_epid(self,show,season,episode):
         showName = show
         content = ""
-        if showName != self.process_name(show):
+        try:
+          showName = self.process_name(show)
+          content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
+        except:
           try:
-            showName = self.process_name(show)
+            showName = self.process_name(show, True)
             content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
           except:
-            try:
-              showName = self.process_name(show, True)
-              content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
-            except:
-              content = None
-              return None
+            content = None
+            return None
 
         if content is None:
           return None
