@@ -48,8 +48,12 @@ class Calendar():
         if content is None:
           return None
 
-        eps = re.findall('class="watchcheck" type="checkbox" value="(.*)" />', content)
-        return next((x for x in eps if x.find('-' + str(season) + '-' + str(episode) + '/') != -1), None)
+        matcher = re.compile('class="watchcheck" type="checkbox" value="(\d*-[0]*' + str(season) + '-[0]*' + str(episode) + '/\d*-\d*)')
+        epid = matcher.findall(content)
+        if not epid:
+            return None
+        else:
+            return epid[0]
 
     """ Processing Kodi's show name into Pogdesign name used in URL of -summary page (eg. "Mr. Robot" to "Mr-Robot") """
     def process_name(self, show, remove_brackets = False):
