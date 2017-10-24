@@ -26,7 +26,7 @@ Addon was tested on Kodi 14.2 Helix for Windows and on OpenELEC 5.95.2 for Raspb
 
 
 ### How to use it ###
-1. Download .zip from here - [Download](https://github.com/djraw/service.pogdesign.sync/archive/master.zip)
+1. Download .zip from here - [Download](https://github.com/rafakob/service.pogdesign.sync/archive/master.zip)
 2. In Kodi go to *Settings > Add-ons > Install from zip file* > Choose created zip file.
 3. Go to addon settings and setup your email and password for the calendar.
 4. That's all. Addon will work in background. It doesn't display any notifications.
