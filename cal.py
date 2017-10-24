@@ -5,7 +5,7 @@ import re
 
 class Calendar():
     def __init__(self):
-        self.baseURL = 'http://www.pogdesign.co.uk/cat'
+        self.baseURL = 'https://www.pogdesign.co.uk/cat'
 
     """ Login to your calendar """
     def login(self,username,password):
