@@ -17,7 +17,7 @@ class Calendar():
             'password': password,
             'sub_login': ''}
 
-        self.submit_form(self.baseURL + '/cat/login', form)
+        self.submit_form(self.baseURL + '/login', form)
 
     """ Returns HTML code of a given URL """
     def get_page(self, url):
@@ -36,11 +36,11 @@ class Calendar():
         content = ""
         try:
           showName = self.process_name(show)
-          content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
+          content = self.get_page(self.baseURL + '/' + showName + '-summary')
         except:
           try:
             showName = self.process_name(show, True)
-            content = self.get_page(self.baseURL + '/cat/' + showName + '-summary')
+            content = self.get_page(self.baseURL + '/' + showName + '-summary')
           except:
             content = None
             return None
