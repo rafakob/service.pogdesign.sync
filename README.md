@@ -1,7 +1,7 @@
 ## Pogdesign TV Calendar Sync ##
 ![](http://i.imgur.com/kdSx2ry.png)
 
-**pogdesign-sync** is a simple addon for Kodi/XBMC. It automatically scans your whole TV Shows database and synchronize watched episodes with your [http://www.pogdesign.co.uk/cat/](http://www.pogdesign.co.uk/cat/) calendar (TVC).
+**pogdesign-sync** is a simple addon for Kodi/XBMC. It automatically scans your whole TV Shows database and synchronize watched episodes with your [https://www.pogdesign.co.uk/cat/](https://www.pogdesign.co.uk/cat/) calendar (TVC).
 
 ### Intro ###
 You may ask why I even bother with a TV calendar that doesn't have a proper name and domain (pogdesign WTF?). Isn't Trakt.tv better? Probably it is, but I've been using TVC for years now and I love it. It's fast, simple, clean and reliable. Even with Kodi + SickRage I'm still checking TVC to see what shows has been released and I'm marking those episodes that I've watched.
@@ -11,7 +11,7 @@ You may ask why I even bother with a TV calendar that doesn't have a proper name
 ### Features ###
 Brace yourself because the addon is just feature-rich! Here we go:
 
-1. Scan Kodi's library and automatically mark watched episodes on [http://www.pogdesign.co.uk/cat/](http://www.pogdesign.co.uk/cat/) calendar.
+1. Scan Kodi's library and automatically mark watched episodes on [https://www.pogdesign.co.uk/cat/](https://www.pogdesign.co.uk/cat/) calendar.
 
 It's a one way synchronization - script selects only watched episodes from Kodi's database and marks them as watched on the online calendar. It does NOT go in the opposite direction. Also it does NOT unmark unwatched episodes.
 
